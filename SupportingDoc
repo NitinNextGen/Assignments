@@ -9,3 +9,4 @@ once installed on your Ubuntu machine ,then fire below command to create hashed 
 This will prompt you for the plaintext password and will give you a hashed password string you can paste into the task definition.
 for password secret , i get hash as below 
       $6$F4NWXRFtSdCi8$DsB5vvMJYusQhSbvGXrYDXL6Xj37MUuqFCudtYehnfkTe548HSTEndkpeucnvmalkdhsgIustM.ynu
+
