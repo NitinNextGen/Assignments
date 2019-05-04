@@ -1,8 +1,9 @@
 ---
+
 -name: Create a login user
      user:
       name: nitin
-      password: '???'
+      password: '$6$F4NWXRFtSdCi8$DsB5vvMJYusQhSbvGXrYDXL6Xj37MUuqFCudtYehnfkTe548HSTEndkpeucnvmalkdhsgIustM.ynu'
       groups: 
        - docker
        - sudo
@@ -11,3 +12,25 @@
       system: no             # Defaults to no
       createhome: yes        # Defaults to yes
       home: /home/nitin      # Defaults to /home/<username>
+      
+  - name: Install docker packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+  tags:
+    - docker
+ 
+# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+- name: Add Docker s official GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  tags:
+    - docker
+ 
