@@ -12,13 +12,18 @@ pipeline {
             }
         }
 	stage('Build image') {
-          app = docker.build("NitinNextGen/Assignments")
+		steps {
+          	sh 'docker build -f "dockerfile" -t nitinpanwar/helloworld '
+	    }
 	}
 	   
 	stage('Push image') {
-            docker.withRegistry('https://registry.hub.docker.com', 'nitinpanwar') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+		steps {
+			withDockerRegistry([ credentialsId: "6544de7e-17a4-4576-9b9b-e86bc1e4f903", url: "" ]) {
+            			sh 'docker push nitinpanwar/helloworld
+            		
+		 	}
+	    }	
         }
     }
 }
