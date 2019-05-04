@@ -1,6 +1,6 @@
 ---
-
--name: Create a login user
+-hosts: all
+-name: "Create a login user"
      user:
       name: nitin
       password: '$6$F4NWXRFtSdCi8$DsB5vvMJYusQhSbvGXrYDXL6Xj37MUuqFCudtYehnfkTe548HSTEndkpeucnvmalkdhsgIustM.ynu'
@@ -13,24 +13,32 @@
       createhome: yes        # Defaults to yes
       home: /home/nitin      # Defaults to /home/<username>
       
-  - name: Install docker packages
-  apt:
-    name: "{{ item }}"
-    state: present
-    update_cache: yes
-  with_items:
-    - apt-transport-https
-    - ca-certificates
-    - curl
-    - software-properties-common
-  tags:
-    - docker
- 
-# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-- name: Add Docker s official GPG key
-  apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
-  tags:
-    - docker
+  - name: "Installing Docker Prerequisite packages"
+      yum:
+     name: "{{ item }}"
+     state: latest
+     with_items:
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+          - name: "Configuring docker-ce repo"
+     get_url:
+          url: https://download.docker.com/linux/centos/docker-ce.repo     
+          #download ‘docker-ce.repo’ file to ‘/etc/yum.repos.d’ directory using ‘get_url’ module
+          dest: /etc/yum.repos.d/docker-ce.repo
+          mode: 0644
+ - name: " Installing Docker latest version"
+     yum:
+     name: docker-ce
+     state: present
+ - name: " Starting and Enabling Docker service"  #To start and enable the docker service using ‘service’ module
+     service:
+     name: docker
+     state: started
+     enabled: yes
+     
+  - name: "install the latest version of Apache Maven"
+     yum:
+     name: maven
+     state: latest
  
