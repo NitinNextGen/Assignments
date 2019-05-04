@@ -1,0 +1,13 @@
+---
+-name: Create a login user
+     user:
+      name: nitin
+      password: '???'
+      groups: 
+       - docker
+       - sudo
+      state: present
+      shell: /bin/bash       # Defaults to /bin/bash
+      system: no             # Defaults to no
+      createhome: yes        # Defaults to yes
+      home: /home/nitin      # Defaults to /home/<username>
